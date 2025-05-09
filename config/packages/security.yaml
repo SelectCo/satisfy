@@ -1,12 +1,15 @@
+imports:
+    - { resource: users.yaml }
+
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'plaintext'
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         users_in_memory:
             memory:
-                users: "%admin.users%"
+                users: "%satis.users%"
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -33,6 +36,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: '^/login', roles: PUBLIC_ACCESS }
+        - { path: '^/webhook', roles: PUBLIC_ACCESS }
+        - { path: '^/admin', roles: ROLE_ADMIN }
+        - { path: '^/', roles: ROLE_SATIS }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
