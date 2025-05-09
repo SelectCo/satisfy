@@ -65,7 +65,6 @@ tmtags
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
-/vendor/
 ###< symfony/framework-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###
@@ -81,3 +80,5 @@ tmtags
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+/config/packages/users.yaml
+/config/secrets/
