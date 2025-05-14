@@ -25,8 +25,13 @@ class ProcessFactory
     {
         $exec = reset($command);
         $command[key($command)] = $this->rootPath . '/' . $exec;
+        $envs = $this->getEnv();
 
-        return new Process($command, $this->rootPath, $this->getEnv(), null, $timeout);
+        if (array_key_exists('PHP_PATH', $envs)) {
+            $command = array_merge([$envs['PHP_PATH']], $command);
+        }
+
+        return new Process($command, $this->rootPath, $envs, null, $timeout);
     }
 
     protected function getEnv(): array
