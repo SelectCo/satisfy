@@ -18,7 +18,7 @@ class IndexController extends AbstractController
     #[Route('/', name: 'index')]
     public function indexAction(): Response
     {
-        $indexFile = $this->projectDir . '/public/index.html';
+        $indexFile = $this->projectDir . '/public/packages/index.html';
         if (!file_exists($indexFile)) {
             return new Response($this->render('unavailable.html.twig'));
         }

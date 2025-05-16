@@ -3,6 +3,7 @@
 namespace Playbloom\Runner;
 
 use Playbloom\Event\BuildEvent;
+use Playbloom\Model\BuildContext;
 use Playbloom\Process\ProcessFactory;
 use Playbloom\Service\Manager;
 use Symfony\Component\Lock\LockFactory;
@@ -71,13 +72,22 @@ class SatisBuildRunner
         try {
             $this->lock->acquire(true);
             $status = $process->run();
+            $exception = null;
         } catch (RuntimeException $exception) {
             $status = 1;
         } finally {
             $this->lock->release();
+            $context = new BuildContext(
+                $process->getExitCode(),
+                $process->getCommandLine(),
+                $process->getOutput(),
+                $process->getErrorOutput(),
+                $exception,
+            );
         }
 
         $event->setStatus($status);
+        $event->setContext($context);
     }
 
     /**
